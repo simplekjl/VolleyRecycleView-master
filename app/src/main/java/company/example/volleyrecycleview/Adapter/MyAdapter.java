@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.List;
 
 import company.example.volleyrecycleview.Model.Song;
+import company.example.volleyrecycleview.Model.VolleySingleton;
 import company.example.volleyrecycleview.R;
 
 /**
@@ -22,6 +23,7 @@ import company.example.volleyrecycleview.R;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private static Context context;
     private List<Song> dataCollection;
+    private ImageLoader mImageLoader;
 
     public MyAdapter(Context activity, List<Song> dataSet) {
         this.dataCollection = dataSet;
@@ -55,28 +57,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         // each data item is just a string in this case
-        private TextView mMData;
-        private TextView mWrapperType;
-        private TextView mKind;
+        private TextView mTitleSong;
+        private TextView mArtist;
         private TextView mArtistId;
         private TextView mCollectionId;
-        private TextView mTrackId;
-        private TextView mArtistName;
-        private TextView mCollectionName;
+        private NetworkImageView mNetworkImageView;
+        private ImageLoader mImageLoader;
         private Button btn;
 
         public ViewHolder(View v) {
             super(v);
 
-            mMData       = (TextView) v.findViewById(R.id.mData);
-            mWrapperType = (TextView) v.findViewById(R.id.wraper);
-            mKind        = (TextView) v.findViewById(R.id.kind);
-            mArtistId    = (TextView) v.findViewById(R.id.artist);
+            mTitleSong   = (TextView) v.findViewById(R.id.titleSong);
+            mArtist      = (TextView) v.findViewById(R.id.artist);
+            mArtistId    = (TextView) v.findViewById(R.id.artistId);
             mCollectionId= (TextView) v.findViewById(R.id.collection);
-            mTrackId     = (TextView) v.findViewById(R.id.trackId);
-            mArtistName  = (TextView) v.findViewById(R.id.artistName);
-            mCollectionName = ( TextView) v.findViewById(R.id.collectionName);
+            mNetworkImageView = (NetworkImageView) v.findViewById(R.id.networkImageView);
             btn          = (Button) v.findViewById(R.id.button);
+            mImageLoader = VolleySingleton.getInstance(v.getContext()).getImageLoader();
 
         }
 
@@ -84,11 +82,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            if (item.getWrapperType() != null)
-                mWrapperType.setText(item.getWrapperType());
+            if (item.getTrackName() != null)
+                mTitleSong.setText(item.getTrackName());
 
-            if (item.getKind() != null)
-                mKind.setText(item.getKind());
+            if (item.getArtistName() != null)
+                mArtist.setText(item.getArtistName());
 
             if (item.getArtistId() != null)
                 mArtistId.setText(item.getArtistId().toString());
@@ -96,14 +94,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             if (item.getCollectionId() != null)
                 mCollectionId.setText(item.getCollectionId().toString());
 
-            if (item.getTrackId() != null)
-                mTrackId.setText(item.getTrackId().toString());
+            if(item.getArtWork()!= null){
 
-            if (item.getArtistName() != null)
-                mArtistId.setText(item.getArtistName());
+                mNetworkImageView.setImageUrl(item.getArtWork(),mImageLoader);
 
-            if (item.getCollectionName() != null)
-                mCollectionName.setText(item.getCollectionName());
+            }
+
         }
     }
 

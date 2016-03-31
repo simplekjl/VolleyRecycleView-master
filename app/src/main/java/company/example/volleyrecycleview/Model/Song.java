@@ -12,12 +12,14 @@ public class Song {
     private Integer trackId;
     private String artistName;
     private String collectionName;
+    private String trackName;
+    private String artWork;
 
     public Song() {
     }
 
-    public Song(String wrapperType, String kind, Integer artistId, Integer collectionId, Integer trackId, String artistName, String collectionName) {
-
+    public Song(String wrapperType, String kind, Integer artistId, Integer collectionId, Integer trackId, String artistName, String collectionName, String trackName, String artWork)
+    {
         this.wrapperType = wrapperType;
         this.kind = kind;
         this.artistId = artistId;
@@ -25,6 +27,24 @@ public class Song {
         this.trackId = trackId;
         this.artistName = artistName;
         this.collectionName = collectionName;
+        this.trackName = trackName;
+        this.artWork = artWork;
+    }
+
+    public String getArtWork() {
+        return artWork;
+    }
+
+    public void setArtWork(String artWork) {
+        this.artWork = artWork;
+    }
+
+    public String getTrackName() {
+        return trackName;
+    }
+
+    public void setTrackName(String trackName) {
+        this.trackName = trackName;
     }
 
     public String getWrapperType() {

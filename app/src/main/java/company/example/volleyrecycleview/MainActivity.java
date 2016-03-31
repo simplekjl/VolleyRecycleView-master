@@ -1,5 +1,6 @@
 package company.example.volleyrecycleview;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -36,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     public RecyclerView mRV;
     public LinearLayoutManager mLayoutManager;
     public RecyclerView.Adapter mAdapter;
+    private static MainActivity mInstance;
+    private static Context mAppContext;
+    private ImageLoader mImageLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +48,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //variables de entorno
+        mInstance = this;
+
+
         mTextView = (TextView)findViewById(R.id.txt1);
-
-
         mRV = (RecyclerView)findViewById(R.id.mRV);
         mRV.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(mLayoutManager);
-        callServer();
+        //callServer();
         //mAdapter = new MyAdapter(mObjects);
         //mRV.setAdapter(mAdapter);
 
@@ -61,12 +69,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callServer();
+                callServer(getApplicationContext());
             }
         });
     }
 
-    private void callServer() {
+    private void callServer(final Context mContext) {
         // Instantiate the RequestQueue.
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -112,16 +120,19 @@ public class MainActivity extends AppCompatActivity {
                                 mSong.setArtistId(Integer.getInteger(explrObject.optString("artistId")));
                                 mSong.setArtistName(explrObject.optString("artistName"));
                                 mSong.setCollectionId(Integer.getInteger(explrObject.optString("collectionId")));
-                                mSong.setArtistName(explrObject.optString("artistName"));
+                                mSong.setTrackName(explrObject.optString("trackName"));
                                 mSong.setKind(explrObject.optString("kind"));
                                 mSong.setCollectionName(explrObject.optString("collectionName"));
                                 mSong.setTrackId(Integer.getInteger(explrObject.optString("trackId")));
+                                mSong.setArtWork(explrObject.optString("artworkUrl100"));
 
                                 mObjects.add(mSong);
+
 
                             }
                             mAdapter = new MyAdapter(MainActivity.this, mObjects);
                             mRV.setAdapter(mAdapter);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
