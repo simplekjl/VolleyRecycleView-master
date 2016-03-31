@@ -8,10 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -25,6 +28,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,9 +57,24 @@ public class MainActivity extends AppCompatActivity {
 
         //variables de entorno
         mInstance = this;
-
-
         mTextView = (TextView)findViewById(R.id.txtSearch);
+        mTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    if (mTextView.getText() != null) {
+                        clearData();
+                        callServer(mTextView.getText().toString());
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(mTextView.getWindowToken(),
+                                InputMethodManager.RESULT_UNCHANGED_SHOWN);
+
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
         //http://stackoverflow.com/questions/13135447/setting-onclicklistner-for-the-drawable-right-of-an-edittext
         mTextView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -64,14 +84,24 @@ public class MainActivity extends AppCompatActivity {
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
-                if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (event.getRawX() >= (mTextView.getRight()
                             - mTextView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         {
                             //http://stackoverflow.com/a/26269435
                             if (mTextView.getText()!=null) {
                                 clearData();
+                                /**
+                                 * FUncion que manda a esconder el inchi teclado si gustas revisar here is the SO
+                                 * http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
+                                 */
+                                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(mTextView.getWindowToken(),
+                                        InputMethodManager.RESULT_UNCHANGED_SHOWN);
+
+                                // Mandamos a llamar la funcion call erver que obtiene la peticion JSON
                                 callServer(mTextView.getText().toString());
+
                             }
                         }
                         return true;
@@ -104,7 +134,13 @@ public class MainActivity extends AppCompatActivity {
         // Instantiate the RequestQueue.
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://itunes.apple.com/search?term="+word;
+        String url = null;
+        try {
+            //http://stackoverflow.com/a/10786112
+            url = "http://itunes.apple.com/search?term="+ URLEncoder.encode(word, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
 // Request a string response from the provided URL.
         JsonObjectRequest stringRequest = new JsonObjectRequest( url,

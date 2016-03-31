@@ -23,8 +23,9 @@
             android:drawableRight="@drawable/ic_search_black_36dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:hint="@string/search_label"
-            android:imeOptions="actionGo|actionSend|flagNoEnterAction|actionDone"
+            android:imeOptions="actionGo"
             android:maxLines="1"/>
 
     </android.support.design.widget.TextInputLayout>
