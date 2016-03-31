@@ -6,54 +6,50 @@
     android:paddingBottom="10dp">
 
     <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/cardview_default_elevation"
-        android:paddingBottom="10dp">
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="8dp" >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/networkImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true" />
-            <!-- private int mData;
-    private String wrapperType;
-    private String kind;
-    private Integer artistId;
-    private Integer collectionId;
-    private Integer trackId;
-    private String artistName;
-    private String collectionName;-->
+                android:layout_width="1100dp"
+                android:layout_height="330dp"
+                android:scaleType="centerCrop"
+                android:background="#000000"/>
+
             <TextView
                 android:id="@+id/titleSong"
                 android:text=" titulo de la cancion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/networkImageView"
-                android:layout_toEndOf="@+id/networkImageView" />
+                android:layout_below="@id/networkImageView"
+                android:layout_alignStart="@id/networkImageView"
+                android:layout_alignLeft="@id/networkImageView"/>
             <TextView
                 android:id="@+id/artist"
                 android:text="artista"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/titleSong"
                 android:textSize="18sp"
-                android:layout_toRightOf="@+id/networkImageView"
-                android:layout_toEndOf="@+id/networkImageView" />
+                android:layout_below="@id/titleSong"
+                android:layout_alignStart="@id/networkImageView"
+                android:layout_alignLeft="@id/networkImageView"/>
             <TextView
                 android:id="@+id/artistId"
                 android:text="id del artista"
                 android:layout_width="wrap_content"
-                android:layout_below="@id/artist"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:layout_toRightOf="@+id/networkImageView"
-                android:layout_toEndOf="@+id/networkImageView" />
+                android:layout_below="@id/artist"
+                android:layout_alignStart="@id/networkImageView"
+                android:layout_alignLeft="@id/networkImageView"/>
 
             <TextView
                 android:id="@+id/collection"
@@ -62,17 +58,17 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/artistId"
                 android:textSize="18sp"
-                android:layout_toRightOf="@+id/networkImageView"
-                android:layout_toEndOf="@+id/networkImageView" />
+                android:layout_alignStart="@id/networkImageView"
+                android:layout_alignLeft="@id/networkImageView" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dale Nigga!"
                 android:id="@+id/button"
-                android:layout_alignTop="@+id/networkImageView"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_below="@id/collection"
+                android:layout_alignRight="@id/networkImageView"
+                android:layout_alignBaseline="@id/collection"/>
 
 
         </RelativeLayout>

@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(mLayoutManager);
-        //callServer();
+        callServer(this);
         //mAdapter = new MyAdapter(mObjects);
         //mRV.setAdapter(mAdapter);
 
