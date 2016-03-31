@@ -11,10 +11,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private static MainActivity mInstance;
     private static Context mAppContext;
     private ImageLoader mImageLoader;
+    private ImageButton btnSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,20 @@ public class MainActivity extends AppCompatActivity {
         //variables de entorno
         mInstance = this;
         mTextView = (TextView)findViewById(R.id.txtSearch);
+        btnSearch = ( ImageButton) findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mTextView.getText() != null) {
+                    clearData();
+                    callServer(mTextView.getText().toString());
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mTextView.getWindowToken(),
+                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                }
+
+            }
+        });
         mTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -75,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        /**
+         * cachar el evento del icono del boton
+         * http://stackoverflow.com/a/26269435
+         */
+        /*
         //http://stackoverflow.com/questions/13135447/setting-onclicklistner-for-the-drawable-right-of-an-edittext
         mTextView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -91,10 +111,10 @@ public class MainActivity extends AppCompatActivity {
                             //http://stackoverflow.com/a/26269435
                             if (mTextView.getText()!=null) {
                                 clearData();
-                                /**
-                                 * FUncion que manda a esconder el inchi teclado si gustas revisar here is the SO
-                                 * http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
-                                 */
+                                /
+                                  //FUncion que manda a esconder el inchi teclado si gustas revisar here is the SO
+                                 // http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
+                                 //
                                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(mTextView.getWindowToken(),
                                         InputMethodManager.RESULT_UNCHANGED_SHOWN);
@@ -109,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
         mRV = (RecyclerView)findViewById(R.id.mRV);
         mRV.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(this,1);
@@ -223,4 +243,5 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.notifyItemRangeRemoved(0, size);
         }
     }
+
 }

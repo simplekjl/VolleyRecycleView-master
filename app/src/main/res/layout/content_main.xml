@@ -12,26 +12,42 @@
     tools:context="company.example.volleyrecycleview.MainActivity"
     tools:showIn="@layout/activity_main">
 
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/labelTxt"
+    <LinearLayout
+        android:id="@+id/searchLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/txtSearch"
-            android:drawableEnd="@drawable/ic_search_black_36dp"
-            android:drawableRight="@drawable/ic_search_black_36dp"
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/labelTxt"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="@string/search_label"
-            android:imeOptions="actionGo"
-            android:maxLines="1"/>
+            android:layout_weight="3">
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/txtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:inputType="text"
+                android:hint="@string/search_label"
+                android:imeOptions="actionGo"
+                android:maxLines="1"/>
 
-    </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/btnSearch"
+            android:src="@drawable/ic_search_white_36dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRV"
-        android:layout_below="@+id/labelTxt"
+        android:layout_below="@+id/searchLayout"
         android:paddingTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
