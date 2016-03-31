@@ -109,18 +109,18 @@ public class MainActivity extends AppCompatActivity {
                             for (int i = 0; i < results.length(); i++) {
                                 Song mSong = new Song();
                                 JSONObject explrObject = results.getJSONObject(i);
-                                mSong.setArtistId(Integer.getInteger(explrObject.getString("artistId")));
-                                mSong.setArtistName(explrObject.getString("artistName"));
-                                mSong.setCollectionId(Integer.getInteger(explrObject.getString("collectionId")));
-                                mSong.setArtistName(explrObject.getString("artistName"));
-                                mSong.setKind(explrObject.getString("kind"));
-                                mSong.setCollectionName(explrObject.getString("collectionName"));
-                                mSong.setTrackId(Integer.getInteger(explrObject.getString("trackId")));
+                                mSong.setArtistId(Integer.getInteger(explrObject.optString("artistId")));
+                                mSong.setArtistName(explrObject.optString("artistName"));
+                                mSong.setCollectionId(Integer.getInteger(explrObject.optString("collectionId")));
+                                mSong.setArtistName(explrObject.optString("artistName"));
+                                mSong.setKind(explrObject.optString("kind"));
+                                mSong.setCollectionName(explrObject.optString("collectionName"));
+                                mSong.setTrackId(Integer.getInteger(explrObject.optString("trackId")));
 
                                 mObjects.add(mSong);
 
                             }
-                            mAdapter = new MyAdapter(mObjects);
+                            mAdapter = new MyAdapter(MainActivity.this, mObjects);
                             mRV.setAdapter(mAdapter);
 
                         } catch (JSONException e) {
