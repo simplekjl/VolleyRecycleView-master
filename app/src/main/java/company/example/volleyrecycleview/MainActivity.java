@@ -2,14 +2,15 @@ package company.example.volleyrecycleview;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Song> mList = new ArrayList<>();
     private List<Song> mObjects = new ArrayList<>();
     public RecyclerView mRV;
-    public LinearLayoutManager mLayoutManager;
+    public GridLayoutManager mLayoutManager;
     public RecyclerView.Adapter mAdapter;
     private static MainActivity mInstance;
     private static Context mAppContext;
@@ -53,32 +54,57 @@ public class MainActivity extends AppCompatActivity {
         mInstance = this;
 
 
-        mTextView = (TextView)findViewById(R.id.txt1);
+        mTextView = (TextView)findViewById(R.id.txtSearch);
+        //http://stackoverflow.com/questions/13135447/setting-onclicklistner-for-the-drawable-right-of-an-edittext
+        mTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (mTextView.getRight()
+                            - mTextView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        {
+                            //http://stackoverflow.com/a/26269435
+                            if (mTextView.getText()!=null) {
+                                clearData();
+                                callServer(mTextView.getText().toString());
+                            }
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         mRV = (RecyclerView)findViewById(R.id.mRV);
         mRV.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager = new GridLayoutManager(this,1);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(mLayoutManager);
-        callServer(this);
+        //callServer(this);
         //mAdapter = new MyAdapter(mObjects);
         //mRV.setAdapter(mAdapter);
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 callServer(getApplicationContext());
             }
-        });
+        });*/
     }
 
-    private void callServer(final Context mContext) {
+    private void callServer(final String word) {
         // Instantiate the RequestQueue.
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://itunes.apple.com/search?term=rock";
+        String url ="http://itunes.apple.com/search?term="+word;
 
 // Request a string response from the provided URL.
         JsonObjectRequest stringRequest = new JsonObjectRequest( url,
@@ -89,28 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
 
                         try {
-//                            JSONObject mObject = new JSONObject(response.toString());
-//                            JSONArray results = mObject.getJSONArray("results");
-//
-//                            for( int i= 0; i< results.length();i++){
-//                                JSONObject c = results.getJSONObject(i);
-//
-//                                JSONArray mDetails = c.getJSONArray("results");
-//                                for(int j=0;j <mDetails.length();j++){
-//                                    Song mSong = new Song();
-//                                    JSONObject explrObject = mDetails.getJSONObject(i);
-//                                    mSong.setArtistId(explrObject.getInt("artistId"));
-//                                    mSong.setArtistName(explrObject.getString("artistName"));
-//                                    mSong.setCollectionId(explrObject.getInt("collectionId"));
-//                                    mSong.setArtistName(explrObject.getString("artistName"));
-//                                    mSong.setKind(explrObject.getString("kind"));
-//                                    mSong.setCollectionName(explrObject.getString("collectionName"));
-//                                    mSong.setTrackId(explrObject.getInt("trackId"));
-//                                    mObjects.add(mSong);
-//                                }
-//                            }
-//                            mAdapter = new MyAdapter(mObjects);
-//                            mRV.setAdapter(mAdapter);
                             Log.d("MAINACTIVITY",response.toString());
                             //JSONObject mObject = new JSONObject(response.toString());
                             JSONArray results = response.getJSONArray("results");
@@ -169,5 +173,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void clearData() {
+        //http://stackoverflow.com/questions/29978695/remove-all-items-from-recyclerview
+        int size = this.mObjects.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                this.mObjects.remove(0);
+            }
+            //notifyAll();
+            mAdapter.notifyItemRangeRemoved(0, size);
+        }
     }
 }

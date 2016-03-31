@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -62,6 +64,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private TextView mArtistId;
         private TextView mCollectionId;
         private NetworkImageView mNetworkImageView;
+        private ImageView imageView;
         private ImageLoader mImageLoader;
         private Button btn;
 
@@ -70,9 +73,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
             mTitleSong   = (TextView) v.findViewById(R.id.titleSong);
             mArtist      = (TextView) v.findViewById(R.id.artist);
-            mArtistId    = (TextView) v.findViewById(R.id.artistId);
-            mCollectionId= (TextView) v.findViewById(R.id.collection);
-            mNetworkImageView = (NetworkImageView) v.findViewById(R.id.networkImageView);
+            imageView = (ImageView) v.findViewById(R.id.IMG);
             btn          = (Button) v.findViewById(R.id.button);
             mImageLoader = VolleySingleton.getInstance(v.getContext()).getImageLoader();
 
@@ -95,8 +96,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 mCollectionId.setText(item.getCollectionId().toString());
 
             if(item.getArtWork()!= null){
+                String url = item.getArtWork().substring(0,item.getArtWork().length()- 13);
 
-                mNetworkImageView.setImageUrl(item.getArtWork(),mImageLoader);
+                Picasso.with(context).load(url+"500x500bb.jpg")
+                        .placeholder(R.mipmap.default_placeholder)
+                        .error(R.mipmap.default_placeholder)
+
+                        .into(imageView);
+
+                //mNetworkImageView.setImageUrl(item.getArtWork(),mImageLoader);
 
             }
 
