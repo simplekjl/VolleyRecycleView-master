@@ -11,9 +11,9 @@ public class Song implements Parcelable {
 
     private String wrapperType;
     private String kind;
-    private Integer artistId;
-    private Integer collectionId;
-    private Integer trackId;
+    private String artistId;
+    private String collectionId;
+    private String trackId;
     private String artistName;
     private String collectionName;
     private String trackName;
@@ -22,7 +22,7 @@ public class Song implements Parcelable {
     public Song() {
     }
 
-    public Song(String wrapperType, String kind, Integer artistId, Integer collectionId, Integer trackId, String artistName, String collectionName, String trackName, String artWork) {
+    public Song(String wrapperType, String kind, String artistId, String collectionId, String trackId, String artistName, String collectionName, String trackName, String artWork) {
         this.wrapperType = wrapperType;
         this.kind = kind;
         this.artistId = artistId;
@@ -81,27 +81,27 @@ public class Song implements Parcelable {
         this.kind = kind;
     }
 
-    public Integer getArtistId() {
+    public String getArtistId() {
         return artistId;
     }
 
-    public void setArtistId(Integer artistId) {
+    public void setArtistId(String artistId) {
         this.artistId = artistId;
     }
 
-    public Integer getCollectionId() {
+    public String getCollectionId() {
         return collectionId;
     }
 
-    public void setCollectionId(Integer collectionId) {
+    public void setCollectionId(String collectionId) {
         this.collectionId = collectionId;
     }
 
-    public Integer getTrackId() {
+    public String getTrackId() {
         return trackId;
     }
 
-    public void setTrackId(Integer trackId) {
+    public void setTrackId(String trackId) {
         this.trackId = trackId;
     }
 
@@ -128,15 +128,15 @@ public class Song implements Parcelable {
      * @return
      */
     private Song(Parcel in) {
-        wrapperType = in.readString();
-        kind = in.readString();
-        artistId = in.readInt();
-        collectionId = in.readInt();
-        trackId = in.readInt();
-        artistName = in.readString();
-        collectionName = in.readString();
-        trackName = in.readString();
-        artWork = in.readString();
+        wrapperType     = in.readString();
+        kind            = in.readString();
+        artistId        = in.readString();
+        collectionId    = in.readString();
+        trackId         = in.readString();
+        artistName      = in.readString();
+        collectionName  = in.readString();
+        trackName       = in.readString();
+        artWork         = in.readString();
 
     }
 

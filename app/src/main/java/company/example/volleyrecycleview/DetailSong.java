@@ -8,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import company.example.volleyrecycleview.Model.Song;
 
 public class DetailSong extends AppCompatActivity {
+
+    private ImageView mImageDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,7 @@ public class DetailSong extends AppCompatActivity {
         Song song = (Song)intent.getParcelableExtra("song");
         Log.d("PEPE",song.toString());
 
+        //initi
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
