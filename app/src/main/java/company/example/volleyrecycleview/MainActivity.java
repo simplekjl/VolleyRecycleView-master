@@ -2,6 +2,7 @@ package company.example.volleyrecycleview;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -48,6 +49,7 @@ import company.example.volleyrecycleview.Model.Song;
  * Parcelable : https://coderwall.com/p/vfbing/passing-objects-between-activities-in-android
  * Parcelable tuto https://dzone.com/articles/using-android-parcel
  * Cordinator layout and Collapse image http://www.slideshare.net/nuuneoi/io-rewind-2015-android-design-support-library
+ * Save state http://stackoverflow.com/a/28262885
  *
  */
 public class MainActivity extends AppCompatActivity {
@@ -63,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
     private static Context mAppContext;
     private ImageLoader mImageLoader;
     private ImageButton btnSearch;
+    private Parcelable mListState;
+
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private static Bundle mBundleRecyclerViewState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,8 +183,7 @@ public class MainActivity extends AppCompatActivity {
         txtLabel.setError(getString(R.string.noResults));
         txtLabel.setErrorEnabled(true);
     }
-    private void clearError()
-    {
+    private void clearError() {
         txtLabel.setErrorEnabled(false);
 
     }
