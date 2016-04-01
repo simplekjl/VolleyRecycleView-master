@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clearData();
+                clearError();
                 if (mTextView.getText() != null) {
                     clearData();
                     callServer(mTextView.getText().toString());
@@ -209,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                                 for (int i = 0; i < results.length(); i++) {
                                     Song mSong = new Song();
                                     JSONObject explrObject = results.getJSONObject(i);
-                                    mSong.setWrapperType(explrObject.optString("longDesription", " "));
+                                    mSong.setWrapperType(explrObject.optString("longDescription", " "));
                                     mSong.setKind(explrObject.optString("kind", ""));
                                     mSong.setArtistId(explrObject.optString("artistId", " "));
                                     mSong.setCollectionId(explrObject.optString("collectionId", ""));

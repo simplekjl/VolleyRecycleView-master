@@ -97,4 +97,6 @@
     </string>
     <string name="ArtistName">Artist</string>
     <string name="album">Album</string>
+    <string name="moreSongs">Songs in the album</string>
+    <string name="noMoreSongs">There are no more songs related with your search.</string>
 </resources>

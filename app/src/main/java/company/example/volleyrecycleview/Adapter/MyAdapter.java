@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -83,7 +82,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
-                    Toast.makeText(context, mList.get(pos).getArtistName(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, mList.get(pos).getArtistName(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(context, DetailSong.class);
                     intent.putExtra("song",mList.get(pos));
                     context.startActivity(intent);

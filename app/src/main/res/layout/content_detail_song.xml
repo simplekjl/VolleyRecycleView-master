@@ -44,13 +44,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/text_margin"/>
+
         <TextView
-            android:id="@+id/description"
-            android:text="@string/large_text"
+            android:id="@+id/more"
             android:layout_below="@id/album"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_margin"/>
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/moreSongs"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRV"
+            android:layout_below="@+id/more"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 
