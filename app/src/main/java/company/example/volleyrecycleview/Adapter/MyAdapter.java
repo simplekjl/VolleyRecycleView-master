@@ -1,6 +1,7 @@
 package company.example.volleyrecycleview.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import company.example.volleyrecycleview.DetailSong;
 import company.example.volleyrecycleview.Model.Song;
 import company.example.volleyrecycleview.Model.VolleySingleton;
 import company.example.volleyrecycleview.R;
@@ -82,6 +84,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     Toast.makeText(context, mList.get(pos).getArtistName(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(context, DetailSong.class);
+                    intent.putExtra("song",mList.get(pos));
+                    context.startActivity(intent);
                 }
             });
         }

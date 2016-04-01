@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Display the first 500 characters of the response string.
-                        clearError();
+
                         try {
                             Log.d("MAINACTIVITY",response.toString());
                             //JSONObject mObject = new JSONObject(response.toString());
