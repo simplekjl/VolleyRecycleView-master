@@ -101,11 +101,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             if (item.getArtistName() != null)
                 mArtist.setText(item.getArtistName());
 
-            if (item.getArtistId() != null)
-                mArtistId.setText(item.getArtistId().toString());
-
-            if (item.getCollectionId() != null)
-                mCollectionId.setText(item.getCollectionId().toString());
 
             if(item.getArtWork()!= null){
                 String url = item.getArtWork().substring(0,item.getArtWork().length()- 13);

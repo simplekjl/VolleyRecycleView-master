@@ -149,9 +149,9 @@ public class Song implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(wrapperType);
         dest.writeString(kind);
-        //dest.writeInt(artistId);
-        //dest.writeInt(collectionId);
-        //dest.writeInt(trackId);
+        dest.writeString(artistId);
+        dest.writeString(collectionId);
+        dest.writeString(trackId);
         dest.writeString(artistName);
         dest.writeString(collectionName);
         dest.writeString(trackName);

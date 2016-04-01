@@ -1,6 +1,7 @@
 package company.example.volleyrecycleview;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,9 +13,17 @@ import android.widget.ImageView;
 
 import company.example.volleyrecycleview.Model.Song;
 
+/**
+ * Sources
+ * play and pause in the same button: http://stackoverflow.com/a/18120296
+ * change icon when they clciked : http://stackoverflow.com/a/15052724
+ *
+ */
 public class DetailSong extends AppCompatActivity {
 
-    private ImageView mImageDetail;
+    private MediaPlayer mMediaPlayer;
+    private ImageView   mImageDetail;
+    private boolean     isPlaying = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +37,29 @@ public class DetailSong extends AppCompatActivity {
         Song song = (Song)intent.getParcelableExtra("song");
         Log.d("PEPE",song.toString());
 
-        //initi
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        setInfo(song);
+
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (isPlaying) {
+                    fab.setImageResource(R.drawable.ic_pause_white_36dp);
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else {
+                    fab.setBackgroundResource(R.drawable.ic_play_arrow_white_36dp);
+                }
+                isPlaying = !isPlaying; // reverse
             }
-        });
+
+    });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setInfo(Song song) {
+        // Initializing the variables
+        mImageDetail = (ImageView) findViewById(R.id.detailImage);
     }
 }

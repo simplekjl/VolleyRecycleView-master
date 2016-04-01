@@ -38,6 +38,18 @@ import java.util.List;
 import company.example.volleyrecycleview.Adapter.MyAdapter;
 import company.example.volleyrecycleview.Model.Song;
 
+/**
+ * Sources
+ * background in button : http://stackoverflow.com/questions/3402787/how-to-have-a-transparent-imagebutton-android
+ * icon in left size TextView: http://stackoverflow.com/questions/30943475/left-icon-in-textinputlayout
+ * set OnclicListener icon textVie: http://stackoverflow.com/a/26269435
+ * erasing information from the recyclerview; http://stackoverflow.com/a/29979007
+ * event click icon TextView : http://stackoverflow.com/a/3205405
+ * Parcelable : https://coderwall.com/p/vfbing/passing-objects-between-activities-in-android
+ * Parcelable tuto https://dzone.com/articles/using-android-parcel
+ * Cordinator layout and Collapse image http://www.slideshare.net/nuuneoi/io-rewind-2015-android-design-support-library
+ *
+ */
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextView;
@@ -197,13 +209,14 @@ public class MainActivity extends AppCompatActivity {
                                 for (int i = 0; i < results.length(); i++) {
                                     Song mSong = new Song();
                                     JSONObject explrObject = results.getJSONObject(i);
-                                    mSong.setArtistId(Integer.getInteger(explrObject.optString("artistId")));
-                                    mSong.setArtistName(explrObject.optString("artistName"));
-                                    mSong.setCollectionId(Integer.getInteger(explrObject.optString("collectionId")));
-                                    mSong.setTrackName(explrObject.optString("trackName"));
-                                    mSong.setKind(explrObject.optString("kind"));
-                                    mSong.setCollectionName(explrObject.optString("collectionName"));
-                                    mSong.setTrackId(Integer.getInteger(explrObject.optString("trackId")));
+                                    mSong.setWrapperType(explrObject.optString("longDesription", " "));
+                                    mSong.setKind(explrObject.optString("kind", ""));
+                                    mSong.setArtistId(explrObject.optString("artistId", " "));
+                                    mSong.setCollectionId(explrObject.optString("collectionId", ""));
+                                    mSong.setTrackId(explrObject.optString("trackId", ""));
+                                    mSong.setArtistName(explrObject.optString("artistName", " "));
+                                    mSong.setCollectionName(explrObject.optString("collectionName", ""));
+                                    mSong.setTrackName(explrObject.optString("trackName", ""));
                                     mSong.setArtWork(explrObject.optString("artworkUrl100"));
 
                                     mObjects.add(mSong);
