@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
                                     mSong.setCollectionName(explrObject.optString("collectionName", ""));
                                     mSong.setTrackName(explrObject.optString("trackName", ""));
                                     mSong.setArtWork(explrObject.optString("artworkUrl100"));
+                                    mSong.setPreviewUrl(explrObject.optString("previewUrl",""));
 
                                     mObjects.add(mSong);
 

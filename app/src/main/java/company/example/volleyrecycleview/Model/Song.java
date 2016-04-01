@@ -18,20 +18,23 @@ public class Song implements Parcelable {
     private String collectionName;
     private String trackName;
     private String artWork;
+    private String previewUrl;
 
     public Song() {
     }
 
-    public Song(String wrapperType, String kind, String artistId, String collectionId, String trackId, String artistName, String collectionName, String trackName, String artWork) {
-        this.wrapperType = wrapperType;
-        this.kind = kind;
-        this.artistId = artistId;
-        this.collectionId = collectionId;
-        this.trackId = trackId;
-        this.artistName = artistName;
+    public Song(String wrapperType, String kind, String artistId, String collectionId, String trackId,
+                String artistName, String collectionName, String trackName, String artWork, String previewUrl) {
+        this.wrapperType    = wrapperType;
+        this.kind           = kind;
+        this.artistId       = artistId;
+        this.collectionId   = collectionId;
+        this.trackId        = trackId;
+        this.artistName     = artistName;
         this.collectionName = collectionName;
-        this.trackName = trackName;
-        this.artWork = artWork;
+        this.trackName      = trackName;
+        this.artWork        = artWork;
+        this.previewUrl     = previewUrl;
     }
 
     @Override
@@ -39,13 +42,14 @@ public class Song implements Parcelable {
         return "Song{" +
                 "wrapperType='" + wrapperType + '\'' +
                 ", kind='" + kind + '\'' +
-                ", artistId=" + artistId +
-                ", collectionId=" + collectionId +
-                ", trackId=" + trackId +
+                ", artistId='" + artistId + '\'' +
+                ", collectionId='" + collectionId + '\'' +
+                ", trackId='" + trackId + '\'' +
                 ", artistName='" + artistName + '\'' +
                 ", collectionName='" + collectionName + '\'' +
                 ", trackName='" + trackName + '\'' +
                 ", artWork='" + artWork + '\'' +
+                ", previewUrl='" + previewUrl + '\'' +
                 '}';
     }
 
@@ -121,6 +125,13 @@ public class Song implements Parcelable {
         this.collectionName = collectionName;
     }
 
+    public String getPreviewUrl() {
+        return previewUrl;
+    }
+
+    public void setPreviewUrl(String previewUrl) {
+        this.previewUrl = previewUrl;
+    }
 
     /**
      * Implementing Parceable to the pojo
@@ -137,6 +148,7 @@ public class Song implements Parcelable {
         collectionName  = in.readString();
         trackName       = in.readString();
         artWork         = in.readString();
+        previewUrl      = in.readString();
 
     }
 
@@ -156,6 +168,7 @@ public class Song implements Parcelable {
         dest.writeString(collectionName);
         dest.writeString(trackName);
         dest.writeString(artWork);
+        dest.writeString(previewUrl);
 
     }
 

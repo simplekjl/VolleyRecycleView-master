@@ -108,7 +108,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 Picasso.with(context).load(url+"500x500bb.jpg")
                         .placeholder(R.mipmap.default_placeholder)
                         .error(R.mipmap.default_placeholder)
-
                         .into(imageView);
 
                 //mNetworkImageView.setImageUrl(item.getArtWork(),mImageLoader);
