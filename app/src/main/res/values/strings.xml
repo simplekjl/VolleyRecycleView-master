@@ -3,4 +3,6 @@
     <string name="action_settings">About</string>
     <string name="details">See More</string>
     <string name="search_label">Please type Gender or Artist</string>
+    <string name="errorVolleyResponse">There are no response from the server try again :D</string>
+    <string name="noResults">There are no results for your search try again.</string>
 </resources>

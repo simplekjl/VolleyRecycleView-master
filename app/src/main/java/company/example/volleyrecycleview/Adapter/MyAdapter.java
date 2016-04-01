@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -38,7 +39,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 .inflate(R.layout.item, parent, false);
         // set the view's size, margins, paddings and layout parameters
         v.setClickable(true);
-        ViewHolder vh = new ViewHolder(v);
+        ViewHolder vh = new ViewHolder(v,dataCollection);
         return vh;
     }
 
@@ -68,7 +69,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private ImageLoader mImageLoader;
         private Button btn;
 
-        public ViewHolder(View v) {
+        public ViewHolder(View v, final List<Song> mList) {
             super(v);
 
             mTitleSong   = (TextView) v.findViewById(R.id.titleSong);
@@ -76,7 +77,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             imageView = (ImageView) v.findViewById(R.id.IMG);
             btn          = (Button) v.findViewById(R.id.button);
             mImageLoader = VolleySingleton.getInstance(v.getContext()).getImageLoader();
-
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    Toast.makeText(context, mList.get(pos).getArtistName(), Toast.LENGTH_LONG).show();
+                }
+            });
         }
 
         public void setItem(Song item) {

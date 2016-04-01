@@ -2,6 +2,7 @@ package company.example.volleyrecycleview;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -39,6 +41,7 @@ import company.example.volleyrecycleview.Model.Song;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextView;
+    private TextInputLayout txtLabel;
     private List<Song> mList = new ArrayList<>();
     private List<Song> mObjects = new ArrayList<>();
     public RecyclerView mRV;
@@ -60,9 +63,11 @@ public class MainActivity extends AppCompatActivity {
         mInstance = this;
         mTextView = (TextView)findViewById(R.id.txtSearch);
         btnSearch = ( ImageButton) findViewById(R.id.btnSearch);
+        txtLabel  = (TextInputLayout) findViewById(R.id.labelTxt);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clearData();
                 if (mTextView.getText() != null) {
                     clearData();
                     callServer(mTextView.getText().toString());
@@ -70,15 +75,20 @@ public class MainActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(mTextView.getWindowToken(),
                             InputMethodManager.RESULT_UNCHANGED_SHOWN);
                 }
+                else{
+                    setError();
+                }
 
             }
         });
         mTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
                 if (actionId == EditorInfo.IME_ACTION_GO) {
                     if (mTextView.getText() != null) {
                         clearData();
+                        clearError();
                         callServer(mTextView.getText().toString());
                         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(mTextView.getWindowToken(),
@@ -150,6 +160,16 @@ public class MainActivity extends AppCompatActivity {
         });*/
     }
 
+    private void setError() {
+        txtLabel.setError(getString(R.string.noResults));
+        txtLabel.setErrorEnabled(true);
+    }
+    private void clearError()
+    {
+        txtLabel.setErrorEnabled(false);
+
+    }
+
     private void callServer(final String word) {
         // Instantiate the RequestQueue.
 
@@ -163,36 +183,39 @@ public class MainActivity extends AppCompatActivity {
         }
 
 // Request a string response from the provided URL.
-        JsonObjectRequest stringRequest = new JsonObjectRequest( url,
+        JsonObjectRequest stringRequest = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Display the first 500 characters of the response string.
-
-
+                        clearError();
                         try {
                             Log.d("MAINACTIVITY",response.toString());
                             //JSONObject mObject = new JSONObject(response.toString());
                             JSONArray results = response.getJSONArray("results");
-                            for (int i = 0; i < results.length(); i++) {
-                                Song mSong = new Song();
-                                JSONObject explrObject = results.getJSONObject(i);
-                                mSong.setArtistId(Integer.getInteger(explrObject.optString("artistId")));
-                                mSong.setArtistName(explrObject.optString("artistName"));
-                                mSong.setCollectionId(Integer.getInteger(explrObject.optString("collectionId")));
-                                mSong.setTrackName(explrObject.optString("trackName"));
-                                mSong.setKind(explrObject.optString("kind"));
-                                mSong.setCollectionName(explrObject.optString("collectionName"));
-                                mSong.setTrackId(Integer.getInteger(explrObject.optString("trackId")));
-                                mSong.setArtWork(explrObject.optString("artworkUrl100"));
+                            if (response.getInt("resultCount")!=0) {
+                                for (int i = 0; i < results.length(); i++) {
+                                    Song mSong = new Song();
+                                    JSONObject explrObject = results.getJSONObject(i);
+                                    mSong.setArtistId(Integer.getInteger(explrObject.optString("artistId")));
+                                    mSong.setArtistName(explrObject.optString("artistName"));
+                                    mSong.setCollectionId(Integer.getInteger(explrObject.optString("collectionId")));
+                                    mSong.setTrackName(explrObject.optString("trackName"));
+                                    mSong.setKind(explrObject.optString("kind"));
+                                    mSong.setCollectionName(explrObject.optString("collectionName"));
+                                    mSong.setTrackId(Integer.getInteger(explrObject.optString("trackId")));
+                                    mSong.setArtWork(explrObject.optString("artworkUrl100"));
 
-                                mObjects.add(mSong);
+                                    mObjects.add(mSong);
 
 
+                                }
+                                mAdapter = new MyAdapter(MainActivity.this, mObjects);
+                                mRV.setAdapter(mAdapter);
+                            }else
+                            {
+                                setError();
                             }
-                            mAdapter = new MyAdapter(MainActivity.this, mObjects);
-                            mRV.setAdapter(mAdapter);
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -202,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mTextView.setText("There is no response ");
+                Toast.makeText(MainActivity.this, R.string.errorVolleyResponse,Toast.LENGTH_LONG).show();
             }
         });
 // Add the request to the RequestQueue.
