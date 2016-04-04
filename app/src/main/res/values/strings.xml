@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">iTunes Songs Preview</string>
+    <string name="app_name">iTunes Songs</string>
     <string name="action_settings">About</string>
     <string name="details">See More</string>
     <string name="search_label">Please type Gender or Artist</string>

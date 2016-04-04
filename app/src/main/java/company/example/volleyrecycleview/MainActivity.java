@@ -1,9 +1,11 @@
 package company.example.volleyrecycleview;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,13 +52,14 @@ import company.example.volleyrecycleview.Model.Song;
  * Parcelable tuto https://dzone.com/articles/using-android-parcel
  * Cordinator layout and Collapse image http://www.slideshare.net/nuuneoi/io-rewind-2015-android-design-support-library
  * Save state http://stackoverflow.com/a/28262885
+ * Restore activity > http://stackoverflow.com/questions/30733969/android-loses-content-when-rotate-device-or-re-open-app-without-logout
+ *
  *
  */
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextView;
     private TextInputLayout txtLabel;
-    private List<Song> mList = new ArrayList<>();
     private List<Song> mObjects = new ArrayList<>();
     public RecyclerView mRV;
     public GridLayoutManager mLayoutManager;
@@ -268,6 +271,26 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            // set title
+            alertDialogBuilder.setTitle("About");
+            // set dialog message
+            alertDialogBuilder
+                    .setView(R.layout.about_me)
+                    .setCancelable(false)
+                    .setPositiveButton("Got it!",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            // if this button is clicked, close
+                            // current activity
+                            MainActivity.this.finish();
+                        }
+                    });
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
             return true;
         }
 
@@ -285,6 +308,25 @@ public class MainActivity extends AppCompatActivity {
             //notifyAll();
             mAdapter.notifyItemRangeRemoved(0, size);
         }
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("ITEMS", (ArrayList<? extends Parcelable>) mObjects);
+        outState.putString("term",mTextView.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        //setting the recyclerview
+        mObjects.clear();
+        mObjects = savedInstanceState.getParcelableArrayList("ITEMS");
+        mAdapter = new MyAdapter(this,mObjects);
+        mRV.setAdapter(mAdapter);
+        //setting the search button
+        mTextView.setText(savedInstanceState.getString("term"));
+        Log.d(MainActivity.this.getLocalClassName(), String.valueOf(mAdapter.getItemCount()));
     }
 
 }
