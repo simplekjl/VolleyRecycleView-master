@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout txtLabel;
     private List<Song> mObjects = new ArrayList<>();
     public RecyclerView mRV;
+    public LinearLayoutManager mLinearLManager;
     public GridLayoutManager mLayoutManager;
     public RecyclerView.Adapter mAdapter;
     private static MainActivity mInstance;

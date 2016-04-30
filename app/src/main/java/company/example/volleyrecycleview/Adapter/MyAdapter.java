@@ -27,7 +27,6 @@ import company.example.volleyrecycleview.R;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private static Context context;
     private List<Song> dataCollection;
-    private ImageLoader mImageLoader;
 
     public MyAdapter(Context activity, List<Song> dataSet) {
         this.dataCollection = dataSet;
@@ -78,6 +77,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             imageView = (ImageView) v.findViewById(R.id.IMG);
             btn          = (Button) v.findViewById(R.id.button);
             mImageLoader = VolleySingleton.getInstance(v.getContext()).getImageLoader();
+
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
